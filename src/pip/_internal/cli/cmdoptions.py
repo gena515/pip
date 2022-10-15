@@ -984,7 +984,6 @@ use_new_feature: Callable[..., Option] = partial(
     default=[],
     choices=[
         "2020-resolver",
-        "fast-deps",
         "truststore",
         "no-binary-enable-wheel-cache",
     ],
