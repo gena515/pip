@@ -1,3 +1,4 @@
+import functools
 import logging
 import sys
 from typing import TYPE_CHECKING, Any, FrozenSet, Iterable, Optional, Tuple, Union, cast
@@ -135,7 +136,6 @@ class _InstallRequirementBackedCandidate(Candidate):
         found remote link (e.g. from pypi.org).
     """
 
-    dist: BaseDistribution
     is_installed = False
 
     def __init__(
@@ -153,7 +153,6 @@ class _InstallRequirementBackedCandidate(Candidate):
         self._ireq = ireq
         self._name = name
         self._version = version
-        self.dist = self._prepare()
 
     def __str__(self) -> str:
         return f"{self.name} {self.version}"
@@ -220,7 +219,10 @@ class _InstallRequirementBackedCandidate(Candidate):
                 str(dist.version),
             )
 
-    def _prepare(self) -> BaseDistribution:
+    @functools.lru_cache(maxsize=None)
+    def __prepare_dist_property(self) -> BaseDistribution:
+        # TODO: When we drop python 3.7 support, move this to 'dist' and use
+        # functools.cached_property instead of lru_cache.
         try:
             dist = self._prepare_distribution()
         except HashError as e:
@@ -237,11 +239,15 @@ class _InstallRequirementBackedCandidate(Candidate):
         self._check_metadata_consistency(dist)
         return dist
 
+    @property
+    def dist(self) -> BaseDistribution:
+        return self.__prepare_dist_property()
+
     def iter_dependencies(self, with_requires: bool) -> Iterable[Optional[Requirement]]:
+        yield self._factory.make_requires_python_requirement(self.dist.requires_python)
         requires = self.dist.iter_dependencies() if with_requires else ()
         for r in requires:
             yield self._factory.make_requirement_from_spec(str(r), self._ireq)
-        yield self._factory.make_requires_python_requirement(self.dist.requires_python)
 
     def get_install_requirement(self) -> Optional[InstallRequirement]:
         return self._ireq
