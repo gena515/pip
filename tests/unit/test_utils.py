@@ -249,8 +249,7 @@ def test_rmtree_errorhandler_reraises_error(tmpdir: Path) -> None:
     # Create directory without read permission
     subdir_path = tmpdir / "subdir"
     subdir_path.mkdir()
-    path = str(subdir_path)
-    os.chmod(path, stat.S_IWRITE)
+    os.chmod(subdir_path, stat.S_IWRITE)
 
     mock_func = Mock()
 
@@ -264,7 +263,9 @@ def test_rmtree_errorhandler_reraises_error(tmpdir: Path) -> None:
             # Tuple[None, None, None]]"; expected "Tuple[Type[BaseException],
             # BaseException, TracebackType]"
             rmtree_errorhandler(
-                mock_func, path, sys.exc_info()  # type: ignore[arg-type]
+                mock_func,
+                subdir_path,
+                sys.exc_info(),  # type: ignore[arg-type]
             )
 
     mock_func.assert_not_called()
