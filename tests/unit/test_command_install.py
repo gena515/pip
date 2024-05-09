@@ -2,7 +2,6 @@ import errno
 from unittest import mock
 
 import pytest
-
 from pip._vendor.requests.exceptions import InvalidProxyURL
 
 from pip._internal.commands import install
@@ -118,7 +117,7 @@ class TestDecideUserInstall:
             True,
             "Could not install packages due to an OSError.\n"
             "Consider checking your local configuration"
-            " with \"pip config debug\".\n",
+            ' with "pip config debug".\n',
         ),
     ],
 )

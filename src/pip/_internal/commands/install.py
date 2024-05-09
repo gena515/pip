@@ -758,11 +758,11 @@ def create_os_error_message(
         else:
             parts.append(permissions_part)
         parts.append(".\n")
-    
+
     # Suggest to check "pip config debug" in case of invalid proxy
     if type(error) is InvalidProxyURL:
         parts.append(
-            "Consider checking your local configuration with \"pip config debug\""
+            'Consider checking your local configuration with "pip config debug"'
         )
         parts.append(".\n")
 
