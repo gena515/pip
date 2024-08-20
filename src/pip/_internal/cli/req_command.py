@@ -101,6 +101,7 @@ class RequirementCommand(IndexGroupCommand):
         use_user_site: bool,
         download_dir: Optional[str] = None,
         verbosity: int = 0,
+        batch_download_parallelism: Optional[int] = None,
     ) -> RequirementPreparer:
         """
         Create a RequirementPreparer instance for the given parameters.
@@ -144,6 +145,7 @@ class RequirementCommand(IndexGroupCommand):
             verbosity=verbosity,
             quietness=options.quiet,
             color=not options.no_color,
+            batch_download_parallelism=batch_download_parallelism,
             legacy_resolver=legacy_resolver,
         )
 

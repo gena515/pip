@@ -233,6 +233,7 @@ class RequirementPreparer:
         verbosity: int,
         quietness: int,
         color: bool,
+        batch_download_parallelism: Optional[int],
         legacy_resolver: bool,
     ) -> None:
         super().__init__()
@@ -249,6 +250,7 @@ class RequirementPreparer:
             progress_bar,
             quiet=quietness > 0,
             color=color,
+            max_parallelism=batch_download_parallelism,
         )
         self.finder = finder
 
