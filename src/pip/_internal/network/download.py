@@ -6,7 +6,7 @@ import logging
 import mimetypes
 import os
 from pathlib import Path
-from typing import Iterable, List, Mapping, Optional, Tuple
+from typing import Iterable, List, Mapping, Optional, Tuple, cast
 
 from pip._vendor.requests.models import Response
 from pip._vendor.rich.progress import TaskID
@@ -231,6 +231,10 @@ class BatchDownloader:
                 break
             assert total_length is not None
             total_length += maybe_len
+        # Sort downloads to perform larger downloads first.
+        if total_length is not None:
+            # Extract the length from each tuple entry.
+            links_with_lengths.sort(key=lambda t: cast(int, t[1][0]), reverse=True)
 
         batched_progress = BatchedProgress.select_progress_bar(
             self._progress_bar
