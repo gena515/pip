@@ -2,10 +2,13 @@
 name that have meaning.
 """
 
-import re
 from typing import Dict, Iterable, List
 
 from pip._vendor.packaging.tags import Tag
+from pip._vendor.packaging.utils import (
+    InvalidWheelFilename as _PackagingInvalidWheelFilename,
+)
+from pip._vendor.packaging.utils import parse_wheel_filename
 
 from pip._internal.exceptions import InvalidWheelFilename
 
@@ -13,34 +16,15 @@ from pip._internal.exceptions import InvalidWheelFilename
 class Wheel:
     """A wheel file"""
 
-    wheel_file_re = re.compile(
-        r"""^(?P<namever>(?P<name>[^\s-]+?)-(?P<ver>[^\s-]*?))
-        ((-(?P<build>\d[^-]*?))?-(?P<pyver>[^\s-]+?)-(?P<abi>[^\s-]+?)-(?P<plat>[^\s-]+?)
-        \.whl|\.dist-info)$""",
-        re.VERBOSE,
-    )
-
     def __init__(self, filename: str) -> None:
-        """
-        :raises InvalidWheelFilename: when the filename is invalid for a wheel
-        """
-        wheel_info = self.wheel_file_re.match(filename)
-        if not wheel_info:
-            raise InvalidWheelFilename(f"{filename} is not a valid wheel filename.")
         self.filename = filename
-        self.name = wheel_info.group("name").replace("_", "-")
-        # we'll assume "_" means "-" due to wheel naming scheme
-        # (https://github.com/pypa/pip/issues/1150)
-        self.version = wheel_info.group("ver").replace("_", "-")
-        self.build_tag = wheel_info.group("build")
-        self.pyversions = wheel_info.group("pyver").split(".")
-        self.abis = wheel_info.group("abi").split(".")
-        self.plats = wheel_info.group("plat").split(".")
+        try:
+            wheel_info = parse_wheel_filename(filename)
+        except _PackagingInvalidWheelFilename as e:
+            raise InvalidWheelFilename(e.args[0]) from None
 
-        # All the tag combinations from this file
-        self.file_tags = {
-            Tag(x, y, z) for x in self.pyversions for y in self.abis for z in self.plats
-        }
+        self.name, _version, self.build_tag, self.file_tags = wheel_info
+        self.version = str(_version)
 
     def get_formatted_file_tags(self) -> List[str]:
         """Return the wheel's tags as a sorted list of strings."""
