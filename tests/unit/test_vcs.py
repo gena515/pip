@@ -4,7 +4,6 @@ from typing import Any, Dict, List, Optional, Tuple, Type
 from unittest import TestCase, mock
 
 import pytest
-
 from pip._internal.exceptions import BadCommand, InstallationError
 from pip._internal.utils.misc import HiddenText, hide_url, hide_value
 from pip._internal.utils.subprocess import CommandArgs
@@ -14,6 +13,7 @@ from pip._internal.vcs.git import Git, RemoteNotValidError, looks_like_hash
 from pip._internal.vcs.mercurial import Mercurial
 from pip._internal.vcs.subversion import Subversion
 from pip._internal.vcs.versioncontrol import RevOptions, VersionControl
+
 from tests.lib import is_svn_installed, need_svn
 
 

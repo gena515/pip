@@ -43,10 +43,10 @@ from _pytest.config.argparsing import Parser
 from installer import install
 from installer.destinations import SchemeDictionaryDestination
 from installer.sources import WheelFile
-
 from pip import __file__ as pip_location
 from pip._internal.locations import _USE_SYSCONFIG
 from pip._internal.utils.temp_dir import global_tempdir_manager
+
 from tests.lib import (
     DATA_DIR,
     SRC_DIR,

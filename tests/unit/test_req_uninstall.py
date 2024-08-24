@@ -4,9 +4,8 @@ from pathlib import Path
 from typing import Iterator, List, Optional, Tuple
 from unittest.mock import Mock
 
-import pytest
-
 import pip._internal.req.req_uninstall
+import pytest
 from pip._internal.req.req_uninstall import (
     StashedUninstallPathSet,
     UninstallPathSet,
@@ -16,6 +15,7 @@ from pip._internal.req.req_uninstall import (
     compress_for_rename,
     uninstallation_paths,
 )
+
 from tests.lib import create_file
 
 

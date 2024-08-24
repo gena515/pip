@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import List, Tuple
 
 import pytest
-
 from pip._internal.exceptions import InstallationError
 from pip._internal.utils.unpacking import is_within_directory, untar_file, unzip_file
+
 from tests.lib import TestData
 
 

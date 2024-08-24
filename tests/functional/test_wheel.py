@@ -6,8 +6,8 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from pip._internal.cli.status_codes import ERROR
+
 from tests.lib import (
     PipTestEnvironment,
     TestData,

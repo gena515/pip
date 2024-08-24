@@ -8,9 +8,8 @@ from pathlib import Path
 from typing import Any, Iterator, List, Optional, Protocol, Tuple, Union
 from unittest import mock
 
-import pytest
-
 import pip._internal.req.req_file  # this will be monkeypatched
+import pytest
 from pip._internal.exceptions import InstallationError, RequirementsFileParseError
 from pip._internal.index.package_finder import PackageFinder
 from pip._internal.models.format_control import FormatControl
@@ -28,6 +27,7 @@ from pip._internal.req.req_file import (
     preprocess,
 )
 from pip._internal.req.req_install import InstallRequirement
+
 from tests.lib import TestData, make_test_finder, requirements_file
 
 

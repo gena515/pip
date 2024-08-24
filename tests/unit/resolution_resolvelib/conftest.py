@@ -1,7 +1,6 @@
 from typing import Iterator
 
 import pytest
-
 from pip._internal.cli.req_command import RequirementCommand
 from pip._internal.commands.install import InstallCommand
 from pip._internal.index.collector import LinkCollector
@@ -17,6 +16,7 @@ from pip._internal.req.constructors import install_req_from_line
 from pip._internal.resolution.resolvelib.factory import Factory
 from pip._internal.resolution.resolvelib.provider import PipProvider
 from pip._internal.utils.temp_dir import TempDirectory, global_tempdir_manager
+
 from tests.lib import TestData
 
 
