@@ -434,6 +434,7 @@ def script() -> Option:
     return Option(
         "-s",
         "--script",
+        default=None,
         dest="script",
         metavar="file",
         help="Install PEP 723 inline dependencies of the given script file. "
