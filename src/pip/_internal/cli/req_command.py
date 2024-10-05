@@ -269,14 +269,17 @@ class RequirementCommand(IndexGroupCommand):
                 )
                 requirements.append(req_to_add)
 
-        if options.script:
-            requirements.extend(parse_pep723_requirements(options.script))
+        if options.scripts:
+            if len(options.scripts) > 1:
+                raise CommandError("--script can only be given once")
+
+            requirements.extend(parse_pep723_requirements(options.scripts[0]))
 
         # If any requirement has hash options, enable hash checking.
         if any(req.has_hash_options for req in requirements):
             options.require_hashes = True
 
-        if not (args or options.editables or options.requirements or options.script):
+        if not (args or options.editables or options.requirements or options.scripts):
             opts = {"name": self.name}
             if options.find_links:
                 raise CommandError(
