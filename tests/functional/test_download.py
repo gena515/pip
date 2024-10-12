@@ -1273,6 +1273,7 @@ def download_server_html_index(
 ) -> Callable[..., Tuple[TestPipResult, Path]]:
     """Execute `pip download` against a generated PyPI index."""
     download_dir = tmpdir / "download_dir"
+    _, server_port = html_index_with_onetime_server.server_address
 
     def run_for_generated_index(
         args: List[str],
@@ -1287,7 +1288,7 @@ def download_server_html_index(
             "-d",
             str(download_dir),
             "-i",
-            "http://localhost:8000",
+            f"http://localhost:{server_port}",
             *args,
         ]
         result = script.pip(*pip_args, allow_error=allow_error)
@@ -1306,7 +1307,7 @@ def download_server_html_index(
             ["colander-0.9.9-py2.py3-none-any.whl", "translationstring-1.1.tar.gz"],
         ),
         (
-            "compilewheel",
+            "compilewheel==1.0",
             ["compilewheel-1.0-py2.py3-none-any.whl", "simple-1.0.tar.gz"],
         ),
     ],
@@ -1339,7 +1340,7 @@ def test_download_metadata(
             "/colander/colander-0.9.9-py2.py3-none-any.whl",
         ),
         (
-            "compilewheel",
+            "compilewheel==1.0",
             [
                 "compilewheel-1.0-py2.py3-none-any.whl",
                 "simple-1.0.tar.gz",
