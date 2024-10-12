@@ -7,9 +7,9 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from pip._internal.vcs.bazaar import Bazaar
 from pip._internal.vcs.versioncontrol import RemoteNotFoundError
+
 from tests.lib import PipTestEnvironment, is_bzr_installed, need_bzr
 
 

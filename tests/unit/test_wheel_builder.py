@@ -5,12 +5,12 @@ from pathlib import Path
 from typing import Optional, cast
 
 import pytest
-
 from pip._internal import wheel_builder
 from pip._internal.models.link import Link
 from pip._internal.operations.build.wheel_legacy import format_command_result
 from pip._internal.req.req_install import InstallRequirement
 from pip._internal.vcs.git import Git
+
 from tests.lib import _create_test_package
 
 

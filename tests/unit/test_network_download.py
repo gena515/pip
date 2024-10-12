@@ -3,13 +3,13 @@ import sys
 from typing import Dict
 
 import pytest
-
 from pip._internal.models.link import Link
 from pip._internal.network.download import (
     _prepare_download,
     parse_content_disposition,
     sanitize_content_filename,
 )
+
 from tests.lib.requests_mocks import MockResponse
 
 
