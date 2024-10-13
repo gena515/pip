@@ -22,6 +22,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 from pip._vendor.packaging.utils import canonicalize_name
 
 from pip._internal.cli.parser import ConfigOptionParser
+from pip._internal.cli.progress_bars import ProgressBarType
 from pip._internal.exceptions import CommandError
 from pip._internal.locations import USER_CACHE_DIR, get_src_prefix
 from pip._internal.models.format_control import FormatControl
@@ -226,10 +227,31 @@ progress_bar: Callable[..., Option] = partial(
     "--progress-bar",
     dest="progress_bar",
     type="choice",
-    choices=["on", "off", "raw"],
-    default="on",
-    help="Specify whether the progress bar should be used [on, off, raw] (default: on)",
+    choices=ProgressBarType.choices(),
+    default=ProgressBarType.ON.value,
+    help=(
+        "Specify whether the progress bar should be used"
+        f" {ProgressBarType.help_choices()} (default: %default)"
+    ),
 )
+
+
+batch_download_parallelism: Callable[..., Option] = partial(
+    Option,
+    "--batch-download-parallelism",
+    dest="batch_download_parallelism",
+    type="int",
+    default=10,
+    help=(
+        "Maximum parallelism employed for batch downloading of metadata-only dists"
+        " (default %default parallel requests)."
+        " Note that more than 10 downloads may overflow the requests connection pool,"
+        " which may affect performance."
+        " Note also that commands such as 'install --dry-run' should avoid downloads"
+        " entirely, and so will not be affected by this option."
+    ),
+)
+
 
 log: Callable[..., Option] = partial(
     PipOption,
