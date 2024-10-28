@@ -438,7 +438,7 @@ def scripts() -> Option:
         default=[],
         dest="scripts",
         metavar="file",
-        help="Install PEP 723 inline dependencies of the given script file. "
+        help="Install PEP 723 inline dependencies of the given script file. ",
     )
 
 

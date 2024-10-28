@@ -10,12 +10,18 @@ from functools import partial
 from optparse import Values
 from typing import Any, List, Optional, Tuple
 
+from pip._vendor.packaging.requirements import Requirement
+
 from pip._internal.cache import WheelCache
 from pip._internal.cli import cmdoptions
 from pip._internal.cli.cmdoptions import make_target_python
 from pip._internal.cli.index_command import IndexGroupCommand
 from pip._internal.cli.index_command import SessionCommandMixin as SessionCommandMixin
-from pip._internal.exceptions import CommandError, PreviousBuildDirError, UnsupportedPythonVersion
+from pip._internal.exceptions import (
+    CommandError,
+    PreviousBuildDirError,
+    UnsupportedPythonVersion,
+)
 from pip._internal.index.collector import LinkCollector
 from pip._internal.index.package_finder import PackageFinder
 from pip._internal.metadata.pep723 import pep723_metadata
@@ -39,7 +45,6 @@ from pip._internal.utils.temp_dir import (
     TempDirectoryTypeRegistry,
     tempdir_kinds,
 )
-from pip._vendor.packaging.requirements import Requirement
 
 logger = logging.getLogger(__name__)
 
